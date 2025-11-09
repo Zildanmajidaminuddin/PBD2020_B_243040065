@@ -1,0 +1,83 @@
+-- Membuat Database
+
+CREATE DATABASE UNPAS;
+
+USE UNPAS;
+
+-- MEMBUAT TABLE MAHASISWA
+
+CREATE TABLE Mahasiswa (
+    npm CHAR(9),
+    nama VARCHAR(100),
+    jurusan  VARCHAR(50),
+);
+
+--MELIHAT STRUKTUR TABLE
+EXEC sp_help 'Mahasiswa';
+
+--MENGUBAH TABEL MEMAKAI ALTER TABLE
+--menambahkan kolom
+
+ALTER TABLE Mahasiswa
+ALTER COLUMN nama VARCHAR (50);
+
+ALTER TABLE Dosen
+DROP CONSTRAINT PK_nip_dosen;
+
+ALTER TABLE Dosen
+ALTER COLUMN nip CHAR (9) NOT NULL;
+
+
+
+--MENAMBAH constraint unique
+ALTER TABLE Mahasiswa
+ADD CONSTRAINT UQ_npm_mahasiswa UNIQUE (npm);
+
+--membuat tabel Dosen 
+CREATE TABLE Dosen(
+   nama VARCHAR (50),
+   nip CHAR(9),
+   alamat VARCHAR(100),
+   prodi VARCHAR(50)
+);
+
+--MENGHAPUS DATABASE
+DROP TABLE Dosen;
+
+--MENGHAPUS DATABASE
+DROP TABLE Dosen;
+
+--MELIHAT DOSSEN TABLE
+EXEC sp_help 'Dosen';
+
+--MEENAMBAHKAN NOT NULL PADA KOLOM NIP
+ALTER TABLE Dosen
+ALTER COLUMN nip VARCHAR (9) NOT NULL;
+
+--MENAMBAH PRIMARY KEY
+ALTER TABLE Dosen
+ADD CONSTRAINT PK_nip_dosen PRIMARY KEY (nip);
+
+--MENGHAPUS CONSTRAINT 
+ALTER TABLE Mahasiswa
+DROP CONSTRAINT UQ_npm_mahasiswa;
+
+
+--MEENAMBAHKAN NOT NULL PADA KOLOM NPM
+ALTER TABLE Mahasiswa
+ALTER COLUMN npm CHAR(9) NOT NULL;
+
+--MENAMBAH PRIMARY KEY
+ALTER TABLE Mahasiswa
+ADD CONSTRAINT PK_npm_mahasiswa PRIMARY KEY (npm);
+
+--MENAMBAHKAN NIP KE TABEL MAHASISWA    
+ALTER TABLE Mahasiswa
+ADD nip_pembimbing CHAR(9);
+
+
+--menambah foreigm key di tabel mahasiswa 
+ALTER TABLE Mahasiswa
+ADD CONSTRAINT FK_mahasiswa_dosen 
+FOREIGN KEY (nip_pembimbing)
+REFERENCES Dosen(nip);
